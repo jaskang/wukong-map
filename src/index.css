@@ -1,0 +1,10 @@
+@import 'tailwindcss' source('../src');
+
+@variant dark (&:where(.dark, .dark *));
+@import './components/index.css';
+@plugin './components/plugin.ts';
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+}
