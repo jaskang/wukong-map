@@ -102,10 +102,10 @@ function App() {
     defaultValue: { x: 0, y: 0 },
   })
   const [mapPointB, setMapPointB] = useLocalStorageState('MapPointB', {
-    defaultValue: { x: 0, y: 0 },
+    defaultValue: { x: 100, y: 100 },
   })
   const [realPointB, setRealPointB] = useLocalStorageState('RealPointB', {
-    defaultValue: { x: 0, y: 0 },
+    defaultValue: { x: 100, y: 100 },
   })
 
   const scaleX = (realPointB!.x - realPointA!.x) / (mapPointB!.x - mapPointA!.x)
