@@ -28,7 +28,7 @@ const updateMapRef = (el: any) => {
 <template>
   <div
     :ref="updateMapRef"
-    class="bg-cover bg-center bg-[url('/maps/img_map_101.webp')] absolute cursor-pointer w-[2048px] h-[2048px]"
+    class="bg-cover bg-center bg-[url('/maps/img_map_101.png')] absolute cursor-pointer w-[2048px] h-[2048px]"
   >
     <div className="relative w-full h-full">
       <template v-for="(point, index) in points" :key="index">
