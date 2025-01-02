@@ -9,7 +9,7 @@ import {
   type DragStartEvent,
 } from '@dnd-kit/core'
 import { restrictToWindowEdges } from '@dnd-kit/modifiers'
-import { Button } from './components/button'
+import { Button, Input } from './components'
 import { useLocalStorageState, useToggle } from 'ahooks'
 import { toInt, toNumber, trim } from 'kotl'
 
@@ -49,7 +49,7 @@ function Map({
 
   return (
     <div
-      className="bg-cover bg-center bg-[url('/maps/map_101.png')] absolute cursor-pointer"
+      className="bg-cover bg-center bg-[url('/maps/map_101.webp')] absolute cursor-pointer"
       ref={setNodeRef}
       {...listeners}
       {...attributes}
@@ -276,24 +276,22 @@ function App() {
         <div className="flex flex-col gap-2">
           <div className="flex gap-2 items-center">
             <span>地图坐标：</span>
-            <input
+            <Input
               type="text"
               placeholder="123.123, 123.123"
               value={`${mapPointA?.x}, ${mapPointA?.y}`}
               onChange={e => {
                 setMapPointA(parseInput(e.target.value))
               }}
-              className="border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus-visible:ring-2 ring-offset-2 focus-visible:ring-blue-500"
             />
             <span>游戏坐标：</span>
-            <input
+            <Input
               type="text"
               placeholder="123.123, 123.123"
               value={`${realPointA?.x}, ${realPointA?.y}`}
               onChange={e => {
                 setRealPointA(parseInput(e.target.value))
               }}
-              className="border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus-visible:ring-2 ring-offset-2 focus-visible:ring-blue-500"
             />
             <Button
               variant="solid"
@@ -307,24 +305,22 @@ function App() {
           </div>
           <div className="flex gap-2 items-center">
             <span>地图坐标：</span>
-            <input
+            <Input
               type="text"
               placeholder="123.123, 123.123"
               value={`${mapPointB?.x}, ${mapPointB?.y}`}
               onChange={e => {
                 setMapPointB(parseInput(e.target.value))
               }}
-              className="border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus-visible:ring-2 ring-offset-2 focus-visible:ring-blue-500"
             />
             <span>游戏坐标：</span>
-            <input
+            <Input
               type="text"
               placeholder="123.123, 123.123"
               value={`${realPointB?.x}, ${realPointB?.y}`}
               onChange={e => {
                 setRealPointB(parseInput(e.target.value))
               }}
-              className="border border-gray-300 rounded-sm px-2 py-1 focus:outline-none focus-visible:ring-2 ring-offset-2 focus-visible:ring-blue-500"
             />
             <Button
               variant="solid"
