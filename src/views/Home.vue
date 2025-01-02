@@ -27,17 +27,20 @@ const realPointA = useLocalStorage('realPointA', { x: 0, y: 0 })
 const mapPointB = useLocalStorage('mapPointB', { x: 0, y: 0 })
 const realPointB = useLocalStorage('realPointB', { x: 0, y: 0 })
 
-// const scaleX = (realPointB!.x - realPointA!.x) / (mapPointB!.x - mapPointA!.x)
-// const scaleY = (realPointB!.y - realPointA!.y) / (mapPointB!.y - mapPointA!.y)
-const scaleX = 56
-const scaleY = 56
+const scale = computed(() => {
+  return 112
+  // return (realPointB.value.x - realPointA.value.x) / (mapPointB.value.x - mapPointA.value.x)
+})
+// const scaleY = computed(() => (realPointB.value.y - realPointA.value.y) / (mapPointB.value.y - mapPointA.value.y))
+// const scaleX = 112
+// const scaleY = 128
 
 // 根据 点A 和 点B 的地图坐标和实际坐标，计算出实际坐标到地图坐标的映射关系
 const realToMap = ({ x, y }: Point) => {
-  const xStr = (mapPointA.value.x + (x - realPointA.value.x) / scaleX).toFixed(2)
-  const yStr = (mapPointA.value.y + (y - realPointA.value.y) / scaleY).toFixed(2)
-  console.log(`mapPointA.x：${mapPointA.value.x} realPointA.x：${realPointA.value.x} scaleX：${scaleX}`)
-  console.log(`mapPointA.y：${mapPointA.value.y} realPointA.y：${realPointA.value.y} scaleY：${scaleY}`)
+  const xStr = (mapPointA.value.x + (x - realPointA.value.x) / scale.value).toFixed(2)
+  const yStr = (mapPointA.value.y + (y - realPointA.value.y) / scale.value).toFixed(2)
+  console.log(`mapPointA.x：${mapPointA.value.x} realPointA.x：${realPointA.value.x} scaleX：${scale.value}`)
+  console.log(`mapPointA.y：${mapPointA.value.y} realPointA.y：${realPointA.value.y} scaleY：${scale.value}`)
   console.log(`realToMap: ${x}, ${y} -> ${xStr}, ${yStr}`)
   return {
     x: toNumber(xStr)!,
@@ -47,8 +50,8 @@ const realToMap = ({ x, y }: Point) => {
 
 const mapToReal = ({ x, y }: Point) => {
   return {
-    x: realPointA.value.x + (x - mapPointA.value.x) * scaleX,
-    y: realPointA.value.y + (y - mapPointA.value.y) * scaleY,
+    x: realPointA.value.x + (x - mapPointA.value.x) * scale.value,
+    y: realPointA.value.y + (y - mapPointA.value.y) * scale.value,
   }
 }
 
@@ -72,7 +75,7 @@ const center = computed(() => {
 const bounds = computed(() => {
   return {
     start: mapToReal({ x: 0, y: 0 }),
-    end: mapToReal({ x: 4096, y: 4096 }),
+    end: mapToReal({ x: 2048, y: 2048 }),
   }
 })
 
@@ -91,18 +94,20 @@ function handleKeyDown(event: KeyboardEvent) {
   }
 }
 
-const points = ref<Point[]>([
-  { x: -16078.579406, y: 23212.450274, z: 1631.47315 }, // RebirthPoint_HFS_C_9 翠竹林-后山
-  { x: 1300.2323, y: 64355.234375, z: 975.849121 }, // RebirthPoint_HFS_C_7 翠竹林-白雾泽
-  { x: -425.251923, y: 54947.25, z: 1205.412804 }, // RebirthPoint_HFS_C_6 翠竹林-蛇径
-  { x: 1321.775513, y: 11999.84375, z: 1121.336426 }, // RebirthPoint_HFS_C_5 苍狼林-观音禅院
-  { x: -63974.664062, y: 28486.105469, z: 8101.832031 }, // RebirthPoint_HFS_C_4 黑风洞-见谛峰
-  { x: -35111.868485, y: 18220.894028, z: -921.253999 }, // RebirthPoint_HFS_C_3 苍狼林-前山
-  { x: -62018.049156, y: 64197.80495, z: -1762.951053 }, // RebirthPoint_HFS_C_2 黑风洞-洞内
-  { x: -85214.835862, y: 59839.779841, z: -192.969867 }, // RebirthPoint_HFS_C_11 黑风洞-洞外
-  { x: 3002.896729, y: -14980.264648, z: 4516.431152 }, // RebirthPoint_HFS_C_1 苍狼林-林外
-  { x: -59216.141769, y: 20820.697949, z: -2223.647438 }, // BP_RebirthPointZhaoHunFanBase_C_1 招魂幡
-])
+const points = computed(() =>
+  [
+    { x: -16078.579406, y: 23212.450274, z: 1631.47315 }, // RebirthPoint_HFS_C_9 翠竹林-后山
+    { x: 1300.2323, y: 64355.234375, z: 975.849121 }, // RebirthPoint_HFS_C_7 翠竹林-白雾泽
+    { x: -425.251923, y: 54947.25, z: 1205.412804 }, // RebirthPoint_HFS_C_6 翠竹林-蛇径
+    { x: 1321.775513, y: 11999.84375, z: 1121.336426 }, // RebirthPoint_HFS_C_5 苍狼林-观音禅院
+    { x: -63974.664062, y: 28486.105469, z: 8101.832031 }, // RebirthPoint_HFS_C_4 黑风洞-见谛峰
+    { x: -35111.868485, y: 18220.894028, z: -921.253999 }, // RebirthPoint_HFS_C_3 苍狼林-前山
+    { x: -62018.049156, y: 64197.80495, z: -1762.951053 }, // RebirthPoint_HFS_C_2 黑风洞-洞内
+    { x: -85214.835862, y: 59839.779841, z: -192.969867 }, // RebirthPoint_HFS_C_11 黑风洞-洞外
+    { x: 3002.896729, y: -14980.264648, z: 4516.431152 }, // RebirthPoint_HFS_C_1 苍狼林-林外
+    { x: -59216.141769, y: 20820.697949, z: -2223.647438 }, // BP_RebirthPointZhaoHunFanBase_C_1 招魂幡
+  ].map(point => realToMap(point))
+)
 </script>
 
 <template>
@@ -111,7 +116,7 @@ const points = ref<Point[]>([
       <Map
         @updateDom="el => (mapElRef = el)"
         :style="style"
-        :size="4096"
+        :size="2048"
         :offset="{ x: offsetX, y: offsetY }"
         :points="points"
         :realToMap="realToMap"
@@ -189,8 +194,8 @@ const points = ref<Point[]>([
         </div>
       </div>
       <div>
-        地图范围：[{{ bounds.start.x }}, {{ bounds.start.y }}] - [{{ bounds.end.x }}, {{ bounds.end.y }}] 比例：scaleX:
-        {{ scaleX.toFixed(2) }} scaleY: {{ scaleY.toFixed(2) }}
+        地图范围：[{{ bounds.start.x }}, {{ bounds.start.y }}] - [{{ bounds.end.x }}, {{ bounds.end.y }}] 比例：
+        {{ scale.toFixed(2) }}
       </div>
       <div>当前点位：[{{ center.map.x }},{{ center.map.y }}] 游戏：[{{ center.real.x }},{{ center.real.y }}]</div>
     </div>
